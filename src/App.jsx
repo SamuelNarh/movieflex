@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from 'react'
-import { Search } from './components/search'
+import { Search } from './components/Search'
 import { Loader } from './components/Loader';
 import { MovieCard } from './components/MovieCard';
 
 const API_BASE_URL = "https://api.themoviedb.org/3";
-const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
-
+// const API_KEY = import.meta.env.VITE_TMDB_API_KEY;
+const API_KEY = "eyJhbGciOiJIUzI1NiJ9.eyJhdWQiOiJjZDQzZWM5ODFjZmFmNzY1OWUwY2I3MzhjOTU5NWRhMiIsIm5iZiI6MTc1NDE2ODA2My4xODIwMDAyLCJzdWIiOiI2ODhlN2FmZjgyNWRkN2RkMTJhNDYyMGUiLCJzY29wZXMiOlsiYXBpX3JlYWQiXSwidmVyc2lvbiI6MX0.Qnxbla5-7GdBETEiWvQooTyopkGSsnWzooFYTXkHYfM"
 const API_OPTIONS = {
   method: 'GET',
   headers: {
@@ -20,11 +20,11 @@ export default function App() {
   const [movieList, setMovieList] = useState([])
   const [isLoading, setisLoading] = useState(false)
 
-  const fetchMovies = async () => {
+  const fetchMovies = async (query ='') => {
     setisLoading(true)
     seterrorMessasage('')
     try {
-      const endpoint = `${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
+      const endpoint = query?`${API_BASE_URL}/search/movie?query=${encodeURIComponent(query)}`:`${API_BASE_URL}/discover/movie?sort_by=popularity.desc`;
       const response = await fetch(endpoint, API_OPTIONS)
       if (!response.ok) {
         throw new Error("Failed to fetch Movies");
@@ -48,9 +48,9 @@ export default function App() {
     }
   };
   useEffect(() => {
-    fetchMovies();
+    fetchMovies(searchTerm);
   },
-    [])
+    [searchTerm])
 
   return (
     <main>

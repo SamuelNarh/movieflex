@@ -10,7 +10,6 @@ export const Search = ({searchTerm, setSearchTerm}) => {
             onChange={(e)=>{setSearchTerm(e.target.value)}}
             />
         </div>
-        <h1>{searchTerm}</h1>
     </div>
   )
 }
